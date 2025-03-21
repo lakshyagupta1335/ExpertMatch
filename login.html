@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExpertMatch - Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #000;
+        }
+        .card {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-custom {
+            background-color: #000;
+            color: #fff;
+            border: none;
+        }
+        .btn-custom:hover {
+            background-color: #333;
+            color: #fff;
+        }
+        input.form-control {
+            background-color: #fff;
+            color: #000;
+            border: 1px solid #ccc;
+        }
+        input.form-control:focus {
+            background-color: #f0f0f0;
+            color: #000;
+            border-color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card p-4 shadow-lg" style="width: 400px;">
+            <h3 class="text-center">Login</h3>
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <button type="submit" class="btn btn-custom w-100">Login</button>
+            </form>
+            <p class="text-center mt-3">Don't have an account? <a href="signup.html" style="color: #000; text-decoration: underline;">Sign up</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+
+            // Default credentials for testing
+            const defaultEmail = "admin@example.com";
+            const defaultPassword = "password123";
+
+            if (email === defaultEmail && password === defaultPassword) {
+                alert("Login successful!");
+                setTimeout(() => {
+                    window.location.href = "expert.html";
+                }, 1000);
+            } else {
+                alert("Invalid email or password. Try again.");
+            }
+        });
+    </script>
+</body>
+</html>

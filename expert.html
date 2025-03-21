@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExpertMatch - Preview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-primary: #000000;
+      --color-secondary: #333333;
+      --color-accent: #4F46E5;
+      --color-background: #f8fafc;
+      --color-card: #ffffff;
+      --color-border: #e2e8f0;
+      --color-text: #1e293b;
+      --color-text-light: #64748b;
+      --color-error: #ef4444;
+      --color-success: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--color-background);
+      color: var(--color-text);
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* Button Styles */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+
+    .btn-primary {
+      background-color: var(--color-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--color-secondary);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--color-border);
+      color: var(--color-text);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--color-background);
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--color-border);
+      border-radius: 0.375rem;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--color-accent);
+    }
+
+    /* Card Styles */
+    .card {
+      background-color: var(--color-card);
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Auth Pages */
+    .auth-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .auth-title {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+    }
+
+    /* Dashboard layout */
+    .dashboard-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: var(--color-card);
+      box-shadow: 1px 0 3px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem 1rem;
+      position: fixed;
+      height: 100vh;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      margin-left: 250px;
+    }
+
+    .sidebar-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      color: var(--color-primary);
+    }
+
+    .sidebar-nav {
+      list-style: none;
+    }
+
+    .sidebar-nav-item {
+      margin-bottom: 0.5rem;
+    }
+
+    .sidebar-nav-link {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      border-radius: 0.375rem;
+      color: var(--color-text);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .sidebar-nav-link:hover, .sidebar-nav-link.active {
+      background-color: var(--color-background);
+      color: var(--color-primary);
+    }
+
+    .sidebar-nav-icon {
+      margin-right: 0.75rem;
+    }
+
+    /* Page header */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .page-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    /* List items */
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .list-item:last-child {
+      border-bottom: none;
+    }
+
+    .list-item-info {
+      flex: 1;
+    }
+
+    .list-item-title {
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+
+    .list-item-subtitle {
+      color: var(--color-text-light);
+      font-size: 0.875rem;
+    }
+
+    .list-item-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    /* Resume upload */
+    .resume-upload {
+      border: 2px dashed var(--color-border);
+      border-radius: 0.5rem;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .resume-upload:hover {
+      border-color: var(--color-accent);
+    }
+
+    .resume-upload-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--color-text-light);
+    }
+
+    /* Stats cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background-color: var(--color-card);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: var(--color-text-light);
+      font-size: 0.875rem;
+    }
+
+    /* Tabs for preview */
+    .tab-container {
+      display: flex;
+      margin-bottom: 1rem;
+    }
+
+    .tab {
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+
+    .tab.active {
+      border-bottom: 2px solid var(--color-primary);
+      font-weight: 500;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Tabs for preview -->
+    <div class="tab-container">
+      <div class="tab active" onclick="showTab('dashboard')">Dashboard</div>
+      <div class="tab" onclick="showTab('candidates')">Candidates</div>
+      <div class="tab" onclick="showTab('experts')">Experts</div>
+    </div>
+
+    <!--  Login Section
+    <div id="login" class="tab-content active">
+      <div class="auth-container">
+        <div class="auth-card card">
+          <h2 class="auth-title">Login to ExpertMatch</h2>
+          <form>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-input" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password</label>
+              <input type="password" class="form-input" required />
+            </div>
+            <button
+              type="button"
+              class="btn btn-primary"
+              style="width: 100%; margin-top: 1rem;"
+              onclick="showTab('dashboard')"
+            >
+              Login
+            </button>
+          </form>
+          <div style="margin-top: 1rem; text-align: center;">
+            Don't have an account? <a href="#" onclick="showTab('signup')">Sign Up</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    Signup Section 
+    <div id="signup" class="tab-content">
+      <div class="auth-container">
+        <div class="auth-card card">
+          <h2 class="auth-title">Create an ExpertMatch Account</h2>
+          <form>
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input type="text" class="form-input" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-input" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password</label>
+              <input type="password" class="form-input" required />
+            </div>
+            <button
+              type="button"
+              class="btn btn-primary"
+              style="width: 100%; margin-top: 1rem;"
+              onclick="showTab('dashboard')"
+            >
+              Sign Up
+            </button>
+          </form>
+          <div style="margin-top: 1rem; text-align: center;">
+            Already have an account? <a href="#" onclick="showTab('login')">Login</a>
+          </div>
+        </div>
+      </div>
+    </div>-->
+
+    <!-- Dashboard Layout -->
+    <div id="dashboard" class="tab-content active">
+      <div class="dashboard-layout">
+        <aside class="sidebar">
+          <div class="sidebar-logo">ExpertMatch</div>
+          <nav>
+            <ul class="sidebar-nav">
+              <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link active" onclick="showTab('dashboard')">
+                  <span class="sidebar-nav-icon">📊</span>
+                  Dashboard
+                </a>
+              </li>
+              <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link" onclick="showTab('candidates')">
+                  <span class="sidebar-nav-icon">👤</span>
+                  Candidates
+                </a>
+              </li>
+              <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link" onclick="showTab('experts')">
+                  <span class="sidebar-nav-icon">🧠</span>
+                  Experts
+                </a>
+              </li>
+              <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link">
+                  <span class="sidebar-nav-icon">⚙️</span>
+                  Profile
+                </a>
+              </li>
+              <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link" onclick="showTab('login')">
+                  <span class="sidebar-nav-icon">🚪</span>
+                  Logout
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+        <main class="main-content">
+          <div class="page-header">
+            <h1 class="page-title">Dashboard</h1>
+            <div>
+              <span>Welcome, Demo User</span>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-value">24</div>
+              <div class="stat-label">Total Candidates</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">38</div>
+              <div class="stat-label">Total Experts</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">7</div>
+              <div class="stat-label">Pending Matches</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">16</div>
+              <div class="stat-label">Completed Matches</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2 style="margin-bottom: 1rem;">Recent Expert Matches</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr>
+                  <th style="text-align: left; padding: 0.75rem; border-bottom: 1px solid #e2e8f0;">Interview Board</th>
+                  <th style="text-align: left; padding: 0.75rem; border-bottom: 1px solid #e2e8f0;">Expert</th>
+                  <th style="text-align: left; padding: 0.75rem; border-bottom: 1px solid #e2e8f0;">Relevance Score</th>
+                  <th style="text-align: left; padding: 0.75rem; border-bottom: 1px solid #e2e8f0;">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding: 0.75rem; border-bottom: 1px solid #e2e8f0;">Machine Learning Research</td>
+                  <td style="padding: 0.75rem; border-bottom: 1px solid #e2e8f0;">Dr. Sarah Chen</td>
+                  <td style="padding: 0.75rem; border-bottom: 1px solid #e2e8f0;">94.2</td>
+                  <td style="padding: 0.75rem; border-bottom: 1px solid #e2e8f0;">
+                    <span style="padding: 0.25rem 0.5rem; background-color: #10b981; color: white; border-radius: 9999px; font-size: 0.75rem;">Matched</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 0.75rem; border-bottom: 1px solid #e2e8f0;">Backend Development</td>
+                  <td style="padding: 0.75rem; border-bottom: 1px solid #e2e8f0;">Michael Rodriguez</td>
+                  <td style="padding: 0.75rem; border-bottom: 1px solid #e2e8f0;">87.5</td>
+                  <td style="padding: 0.75rem; border-bottom: 1px solid #e2e8f0;">
+                    <span style="padding: 0.25rem 0.5rem; background-color: #10b981; color: white; border-radius: 9999px; font-size: 0.75rem;">Matched</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 0.75rem; border-bottom: 1px solid #e2e8f0;">Product Management</td>
+                  <td style="padding: 0.75rem; border-bottom: 1px solid #e2e8f0;">Aisha Johnson</td>
+                  <td style="padding: 0.75rem; border-bottom: 1px solid #e2e8f0;">91.3</td>
+                  <td style="padding: 0.75rem; border-bottom: 1px solid #e2e8f0;">
+                    <span style="padding: 0.25rem 0.5rem; background-color: #f59e0b; color: white; border-radius: 9999px; font-size: 0.75rem;">Pending</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Candidates Section -->
+    <div id="candidates" class="tab-content">
+      <div class="dashboard-layout">
+        <aside class="sidebar">
+          <div class="sidebar-logo">ExpertMatch</div>
+          <nav>
+            <ul class="sidebar-nav">
+              <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link" onclick="showTab('dashboard')">
+                  <span class="sidebar-nav-icon">📊</span>
+                  Dashboard
+                </a>
+              </li>
+              <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link active" onclick="showTab('candidates')">
+                  <span class="sidebar-nav-icon">👤</span>
+                  Candidates
+                </a>
+              </li>
+              <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link" onclick="showTab('experts')">
+                  <span class="sidebar-nav-icon">🧠</span>
+                  Experts
+                </a>
+              </li>
+              <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link">
+                  <span class="sidebar-nav-icon">⚙️</span>
+                  Profile
+                </a>
+              </li>
+              <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link" onclick="showTab('login')">
+                  <span class="sidebar-nav-icon">🚪</span>
+                  Logout
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+        <main class="main-content">
+          <div class="page-header">
+            <h1 class="page-title">Candidates</h1>
+            <button class="btn btn-primary" id="candidateToggleBtn" onclick="toggleCandidateUpload()">
+              Add Candidate
+            </button>
+          </div>
+
+          <div id="candidateUpload" style="display: none;">
+            <div class="card">
+              <h2 style="margin-bottom: 1rem;">Upload Candidate Resume</h2>
+              <div class="resume-upload">
+                <div class="resume-upload-icon">📄</div>
+                <h3>Upload Resume</h3>
+                <p>Drag and drop a PDF or DOCX file, or click to browse</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="candidateList">
+            <div class="card">
+              <div class="list-item">
+                <div class="list-item-info">
+                  <h3 class="list-item-title">John Doe</h3>
+                  <p class="list-item-subtitle">Frontend Developer</p>
+                </div>
+                <div class="list-item-actions">
+                  <button class="btn btn-outline">View Profile</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="list-item">
+                <div class="list-item-info">
+                  <h3 class="list-item-title">Jane Smith</h3>
+                  <p class="list-item-subtitle">Data Scientist</p>
+                </div>
+                <div class="list-item-actions">
+                  <button class="btn btn-outline">View Profile</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="list-item">
+                <div class="list-item-info">
+                  <h3 class="list-item-title">Alex Johnson</h3>
+                  <p class="list-item-subtitle">Product Manager</p>
+                </div>
+                <div class="list-item-actions">
+                  <button class="btn btn-outline">View Profile</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Experts Section -->
+    <div id="experts" class="tab-content">
+      <div class="dashboard-layout">
+        <aside class="sidebar">
+          <div class="sidebar-logo">ExpertMatch</div>
+          <nav>
+            <ul class="sidebar-nav">
+              <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link" onclick="showTab('dashboard')">
+                  <span class="sidebar-nav-icon">📊</span>
+                  Dashboard
+                </a>
+              </li>
+              <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link" onclick="showTab('candidates')">
+                  <span class="sidebar-nav-icon">👤</span>
+                  Candidates
+                </a>
+              </li>
+              <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link active" onclick="showTab('experts')">
+                  <span class="sidebar-nav-icon">🧠</span>
+                  Experts
+                </a>
+              </li>
+              <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link">
+                  <span class="sidebar-nav-icon">⚙️</span>
+                  Profile
+                </a>
+              </li>
+              <li class="sidebar-nav-item">
+                <a href="#" class="sidebar-nav-link" onclick="showTab('login')">
+                  <span class="sidebar-nav-icon">🚪</span>
+                  Logout
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+        <main class="main-content">
+          <div class="page-header">
+            <h1 class="page-title">Experts</h1>
+            <button class="btn btn-primary" id="expertToggleBtn" onclick="toggleExpertUpload()">
+              Add Expert
+            </button>
+          </div>
+
+          <div id="expertUpload" style="display: none;">
+            <div class="card">
+              <h2 style="margin-bottom: 1rem;">Upload Expert Resume</h2>
+              <div class="resume-upload">
+                <div class="resume-upload-icon">📄</div>
+                <h3>Upload Resume</h3>
+                <p>Drag and drop a PDF or DOCX file, or click to browse</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="expertList">
+            <div class="card">
+              <div class="list-item">
+                <div class="list-item-info">
+                  <h3 class="list-item-title">Dr. Sarah Chen</h3>
+                  <p class="list-item-subtitle">Machine Learning</p>
+                  <div style="margin-top: 0.5rem;">
+                    <span style="display: inline-block; background: #000; color: #fff; padding: 0.25rem 0.5rem; border-radius: 1rem; font-size: 0.75rem;">
+                      Relevance Score: 94.2
+                    </span>
+                  </div>
+                </div>
+                <div class="list-item-actions">
+                  <button class="btn btn-outline">View Profile</button>
+                  <button class="btn btn-primary">Select</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="list-item">
+                <div class="list-item-info">
+                  <h3 class="list-item-title">Michael Rodriguez</h3>
+                  <p class="list-item-subtitle">Backend Development</p>
+                  <div style="margin-top: 0.5rem;">
+                    <span style="display: inline-block; background: #000; color: #fff; padding: 0.25rem 0.5rem; border-radius: 1rem; font-size: 0.75rem;">
+                      Relevance Score: 87.5
+                    </span>
+                  </div>
+                </div>
+                <div class="list-item-actions">
+                  <button class="btn btn-outline">View Profile</button>
+                  <button class="btn btn-primary">Select</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="list-item">
+                <div class="list-item-info">
+                  <h3 class="list-item-title">Aisha Johnson</h3>
+                  <p class="list-item-subtitle">Product Management</p>
+                  <div style="margin-top: 0.5rem;">
+                    <span style="display: inline-block; background: #000; color: #fff; padding: 0.25rem 0.5rem; border-radius: 1rem; font-size: 0.75rem;">
+                      Relevance Score: 91.3
+                    </span>
+                  </div>
+                </div>
+                <div class="list-item-actions">
+                  <button class="btn btn-outline">View Profile</button>
+                  <button class="btn btn-primary">Select</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showTab(tabId) {
+      // Hide all tab contents
+      const tabContents = document.querySelectorAll('.tab-content');
+      tabContents.forEach(content => {
+        content.classList.remove('active');
+      });
+      
+      // Remove active class from all tabs
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Show the selected tab content
+      document.getElementById(tabId).classList.add('active');
+      
+      // Highlight the selected tab
+      document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+    }
+
+    function toggleCandidateUpload() {
+      const uploadDiv = document.getElementById('candidateUpload');
+      const listDiv = document.getElementById('candidateList');
+      const toggleBtn = document.getElementById('candidateToggleBtn');
+      
+      if (uploadDiv.style.display === 'none') {
+        uploadDiv.style.display = 'block';
+        listDiv.style.display = 'none';
+        toggleBtn.textContent = 'Cancel';
+      } else {
+        uploadDiv.style.display = 'none';
+        listDiv.style.display = 'block';
+        toggleBtn.textContent = 'Add Candidate';
+      }
+    }
+
+    function toggleExpertUpload() {
+      const uploadDiv = document.getElementById('expertUpload');
+      const listDiv = document.getElementById('expertList');
+      const toggleBtn = document.getElementById('expertToggleBtn');
+      
+      if (uploadDiv.style.display === 'none') {
+        uploadDiv.style.display = 'block';
+        listDiv.style.display = 'none';
+        toggleBtn.textContent = 'Cancel';
+      } else {
+        uploadDiv.style.display = 'none';
+        listDiv.style.display = 'block';
+        toggleBtn.textContent = 'Add Expert';
+      }
+    }
+  </script>
+</body>
+</html>
